@@ -17,7 +17,7 @@ class MainScreen extends StatelessWidget {
               _TemperatureLabelContent(),
               Expanded(
                 child: Column(
-                  children: [SizedBox(height: 80), _ReloadButton()],
+                  children: [SizedBox(height: 80), _FooterButtonContent()],
                 ),
               ),
             ],
@@ -62,8 +62,8 @@ class _TemperatureLabelContent extends StatelessWidget {
   }
 }
 
-class _ReloadButton extends StatelessWidget {
-  const _ReloadButton();
+class _FooterButtonContent extends StatelessWidget {
+  const _FooterButtonContent();
 
   @override
   Widget build(BuildContext context) {
