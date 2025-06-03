@@ -10,7 +10,6 @@ class MainScreen extends StatelessWidget {
         child: FractionallySizedBox(
           widthFactor: 0.5,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Spacer(),
               AspectRatio(aspectRatio: 1, child: Placeholder()),
@@ -39,22 +38,19 @@ class _TemperatureLabelContent extends StatelessWidget {
     final temperatureLabelStyle = Theme.of(context).textTheme.labelLarge;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          child: Center(
-            child: Text(
-              '** ℃',
-              style: temperatureLabelStyle?.copyWith(color: Colors.blue),
-            ),
+          child: Text(
+            '** ℃',
+            style: temperatureLabelStyle?.copyWith(color: Colors.blue),
+            textAlign: TextAlign.center,
           ),
         ),
         Expanded(
-          child: Center(
-            child: Text(
-              '** ℃',
-              style: temperatureLabelStyle?.copyWith(color: Colors.red),
-            ),
+          child: Text(
+            '** ℃',
+            style: temperatureLabelStyle?.copyWith(color: Colors.red),
+            textAlign: TextAlign.center,
           ),
         ),
       ],
