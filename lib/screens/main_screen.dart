@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/services/yumemi_weather_service.dart';
 
 class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+  MainScreen({super.key});
+  final _service = YumemiWeatherService();
 
   @override
   Widget build(BuildContext context) {
