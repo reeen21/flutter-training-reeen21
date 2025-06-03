@@ -73,7 +73,7 @@ class _FooterButtonContent extends StatelessWidget {
         Expanded(
           child: Center(
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {}, // TODO: Add close action.
               style: TextButton.styleFrom(foregroundColor: Colors.blue),
               child: const Text('Close'),
             ),
@@ -82,7 +82,7 @@ class _FooterButtonContent extends StatelessWidget {
         Expanded(
           child: Center(
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {}, // TODO: Add reload action.
               style: TextButton.styleFrom(foregroundColor: Colors.blue),
               child: const Text('Reload'),
             ),
