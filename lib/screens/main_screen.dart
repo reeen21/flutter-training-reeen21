@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_training/entity/weather_condition.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
 
-class MainScreen extends StatelessWidget {
-  MainScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
   final _service = YumemiWeatherService();
+  WeatherCondition _condition = WeatherCondition.sunny;
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: FractionallySizedBox(
           widthFactor: 0.5,
           child: Column(
             children: [
-              Spacer(),
-              AspectRatio(aspectRatio: 1, child: Placeholder()),
-              Padding(
+              const Spacer(),
+              AspectRatio(
+                aspectRatio: 1,
+                child: _condition.svgImage,
+              ),
+              const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
                 child: _TemperatureLabelContent(),
               ),
               Expanded(
                 child: Column(
-                  children: [SizedBox(height: 80), _FooterButtonContent()],
+                  children: [
+                    const SizedBox(height: 80),
+                    _FooterButtonContent(
+                      onTapClose: () {},
+                      onTapReload: updateWeatherCondition,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -29,6 +46,13 @@ class MainScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void updateWeatherCondition() {
+    final weatherConditionString = _service.fetchWeather();
+    setState(() {
+      _condition = WeatherCondition.values.byName(weatherConditionString);
+    });
   }
 }
 
@@ -61,7 +85,14 @@ class _TemperatureLabelContent extends StatelessWidget {
 }
 
 class _FooterButtonContent extends StatelessWidget {
-  const _FooterButtonContent();
+  const _FooterButtonContent({
+    required VoidCallback onTapReload,
+    required VoidCallback onTapClose,
+  }) : _onTapReload = onTapReload,
+       _onTapClose = onTapClose;
+
+  final VoidCallback _onTapReload;
+  final VoidCallback _onTapClose;
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +100,14 @@ class _FooterButtonContent extends StatelessWidget {
       children: [
         Expanded(
           child: TextButton(
-            onPressed: () {}, // TODO: Add close action.
+            onPressed: _onTapClose, // TODO: Add close action.
             style: TextButton.styleFrom(foregroundColor: Colors.blue),
             child: const Text('Close'),
           ),
         ),
         Expanded(
           child: TextButton(
-            onPressed: () {}, // TODO: Add reload action.
+            onPressed: _onTapReload, // TODO: Add reload action.
             style: TextButton.styleFrom(foregroundColor: Colors.blue),
             child: const Text('Reload'),
           ),
