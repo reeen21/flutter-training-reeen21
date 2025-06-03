@@ -33,7 +33,7 @@ class _TemperatureLabelContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final temperatureLabelStyle = Theme.of(context).textTheme.labelLarge;
 
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
@@ -44,7 +44,7 @@ class _TemperatureLabelContent extends StatelessWidget {
             child: Center(
               child: Text(
                 '** ℃',
-                style: theme.textTheme.labelLarge?.copyWith(color: Colors.blue),
+                style: temperatureLabelStyle?.copyWith(color: Colors.blue),
               ),
             ),
           ),
@@ -52,7 +52,7 @@ class _TemperatureLabelContent extends StatelessWidget {
             child: Center(
               child: Text(
                 '** ℃',
-                style: theme.textTheme.labelLarge?.copyWith(color: Colors.red),
+                style: temperatureLabelStyle?.copyWith(color: Colors.red),
               ),
             ),
           ),
