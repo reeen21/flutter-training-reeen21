@@ -14,7 +14,10 @@ class MainScreen extends StatelessWidget {
             children: [
               Spacer(),
               AspectRatio(aspectRatio: 1, child: Placeholder()),
-              _TemperatureLabelContent(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: _TemperatureLabelContent(),
+              ),
               Expanded(
                 child: Column(
                   children: [SizedBox(height: 80), _FooterButtonContent()],
@@ -35,29 +38,26 @@ class _TemperatureLabelContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final temperatureLabelStyle = Theme.of(context).textTheme.labelLarge;
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Center(
-              child: Text(
-                '** ℃',
-                style: temperatureLabelStyle?.copyWith(color: Colors.blue),
-              ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Center(
+            child: Text(
+              '** ℃',
+              style: temperatureLabelStyle?.copyWith(color: Colors.blue),
             ),
           ),
-          Expanded(
-            child: Center(
-              child: Text(
-                '** ℃',
-                style: temperatureLabelStyle?.copyWith(color: Colors.red),
-              ),
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              '** ℃',
+              style: temperatureLabelStyle?.copyWith(color: Colors.red),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
