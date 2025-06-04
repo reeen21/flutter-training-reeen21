@@ -1,7 +1,10 @@
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class YumemiWeatherService {
-  final _yumemiWeather = YumemiWeather();
+  YumemiWeatherService([YumemiWeather? yumemiWeather])
+    : _yumemiWeather = yumemiWeather ?? YumemiWeather();
+
+  final YumemiWeather _yumemiWeather;
 
   String fetchWeather() {
     return _yumemiWeather.fetchSimpleWeather();
