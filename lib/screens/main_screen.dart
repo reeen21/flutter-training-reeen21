@@ -35,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     const SizedBox(height: 80),
                     _FooterButtonContent(
-                      onTapClose: () {}, // TODO: Add close action.
-                      onTapReload: _updateWeatherCondition,
+                      onCloseTapped: () {}, // TODO: Add close action.
+                      onReloadTapped: _updateWeatherCondition,
                     ),
                   ],
                 ),
@@ -87,10 +87,10 @@ class _TemperatureLabelContent extends StatelessWidget {
 
 class _FooterButtonContent extends StatelessWidget {
   const _FooterButtonContent({
-    required VoidCallback onTapReload,
-    required VoidCallback onTapClose,
-  }) : _onReloadTapped = onTapReload,
-       _onCloseTapped = onTapClose;
+    required VoidCallback onReloadTapped,
+    required VoidCallback onCloseTapped,
+  }) : _onReloadTapped = onReloadTapped,
+       _onCloseTapped = onCloseTapped;
 
   final VoidCallback _onReloadTapped;
   final VoidCallback _onCloseTapped;
