@@ -51,7 +51,9 @@ class _MainScreenState extends State<MainScreen> {
   void _updateWeatherCondition() {
     final weatherConditionString = _service.fetchWeather();
     setState(() {
-      _condition = WeatherCondition.values.byName(weatherConditionString);
+      _condition =
+          WeatherCondition.fromNameOrNull(weatherConditionString) ??
+          WeatherCondition.sunny;
     });
   }
 }

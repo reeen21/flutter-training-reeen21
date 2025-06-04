@@ -1,6 +1,19 @@
 import 'package:flutter_svg/svg.dart';
 
-enum WeatherCondition { sunny, rainy, cloudy }
+enum WeatherCondition {
+  sunny,
+  rainy,
+  cloudy;
+
+  static WeatherCondition? fromNameOrNull(String? name) {
+    for (final value in values) {
+      if (value.name == name) {
+        return value;
+      }
+    }
+    return null;
+  }
+}
 
 extension WeatherConditionImage on WeatherCondition {
   SvgPicture get svgImage => switch (this) {
