@@ -35,8 +35,8 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     const SizedBox(height: 80),
                     _FooterButtonContent(
-                      onTapClose: () {},
-                      onTapReload: updateWeatherCondition,
+                      onTapClose: () {}, // TODO: Add close action.
+                      onTapReload: _updateWeatherCondition,
                     ),
                   ],
                 ),
@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void updateWeatherCondition() {
+  void _updateWeatherCondition() {
     final weatherConditionString = _service.fetchWeather();
     setState(() {
       _condition = WeatherCondition.values.byName(weatherConditionString);
@@ -100,14 +100,14 @@ class _FooterButtonContent extends StatelessWidget {
       children: [
         Expanded(
           child: TextButton(
-            onPressed: _onTapClose, // TODO: Add close action.
+            onPressed: _onTapClose,
             style: TextButton.styleFrom(foregroundColor: Colors.blue),
             child: const Text('Close'),
           ),
         ),
         Expanded(
           child: TextButton(
-            onPressed: _onTapReload, // TODO: Add reload action.
+            onPressed: _onTapReload,
             style: TextButton.styleFrom(foregroundColor: Colors.blue),
             child: const Text('Reload'),
           ),
