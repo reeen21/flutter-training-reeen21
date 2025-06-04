@@ -11,7 +11,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _service = YumemiWeatherService();
-  WeatherCondition _condition = WeatherCondition.sunny;
+  WeatherCondition? _condition;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
               const Spacer(),
               AspectRatio(
                 aspectRatio: 1,
-                child: _condition.svgImage,
+                child: _condition?.svgImage,
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
@@ -52,8 +52,7 @@ class _MainScreenState extends State<MainScreen> {
     final weatherConditionString = _service.fetchWeather();
     setState(() {
       _condition =
-          WeatherCondition.fromNameOrNull(weatherConditionString) ??
-          WeatherCondition.sunny;
+          WeatherCondition.fromNameOrNull(weatherConditionString);
     });
   }
 }
