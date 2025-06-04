@@ -64,24 +64,19 @@ class _FooterButtonContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          child: Center(
-            child: TextButton(
-              onPressed: () {}, // TODO: Add close action.
-              style: TextButton.styleFrom(foregroundColor: Colors.blue),
-              child: const Text('Close'),
-            ),
+          child: TextButton(
+            onPressed: () {}, // TODO: Add close action.
+            style: TextButton.styleFrom(foregroundColor: Colors.blue),
+            child: const Text('Close'),
           ),
         ),
         Expanded(
-          child: Center(
-            child: TextButton(
-              onPressed: () {}, // TODO: Add reload action.
-              style: TextButton.styleFrom(foregroundColor: Colors.blue),
-              child: const Text('Reload'),
-            ),
+          child: TextButton(
+            onPressed: () {}, // TODO: Add reload action.
+            style: TextButton.styleFrom(foregroundColor: Colors.blue),
+            child: const Text('Reload'),
           ),
         ),
       ],
