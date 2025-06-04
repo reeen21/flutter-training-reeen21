@@ -90,11 +90,11 @@ class _FooterButtonContent extends StatelessWidget {
   const _FooterButtonContent({
     required VoidCallback onTapReload,
     required VoidCallback onTapClose,
-  }) : _onTapReload = onTapReload,
-       _onTapClose = onTapClose;
+  }) : _onReloadTapped = onTapReload,
+       _onCloseTapped = onTapClose;
 
-  final VoidCallback _onTapReload;
-  final VoidCallback _onTapClose;
+  final VoidCallback _onReloadTapped;
+  final VoidCallback _onCloseTapped;
 
   @override
   Widget build(BuildContext context) {
@@ -102,14 +102,14 @@ class _FooterButtonContent extends StatelessWidget {
       children: [
         Expanded(
           child: TextButton(
-            onPressed: _onTapClose,
+            onPressed: _onCloseTapped,
             style: TextButton.styleFrom(foregroundColor: Colors.blue),
             child: const Text('Close'),
           ),
         ),
         Expanded(
           child: TextButton(
-            onPressed: _onTapReload,
+            onPressed: _onReloadTapped,
             style: TextButton.styleFrom(foregroundColor: Colors.blue),
             child: const Text('Reload'),
           ),
