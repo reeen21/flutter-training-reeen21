@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
               const Spacer(),
               AspectRatio(
                 aspectRatio: 1,
-                child: _condition?.svgImage,
+                child: _condition?.svgImage ?? const Placeholder(),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
