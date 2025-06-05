@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -49,15 +51,47 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _updateWeatherCondition() {
-    final weatherConditionString = _service.fetchWeather();
     setState(() {
-      _condition =
-          WeatherCondition.fromNameOrNull(weatherConditionString);
+      try {
+        final weatherConditionString = _service.fetchWeather();
+        _condition = WeatherCondition.fromNameOrNull(weatherConditionString);
+      } on YumemiWeatherError {
+        _showErrorDialog();
+      }
     });
   }
 
   void _closeMainScreen() {
-      Navigator.pop(context);
+    Navigator.pop(context);
+  }
+
+  void _showErrorDialog() {
+    unawaited(
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('天気の取得に失敗しました。'),
+            content: const Text('再度読み込んでください。'),
+            actions: [
+              TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    Colors.blue,
+                  ),
+                  foregroundColor: WidgetStateProperty.all<Color>(
+                    Colors.white,
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }
 
