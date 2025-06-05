@@ -15,8 +15,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
     super.initState();
     unawaited(
       WidgetsBinding.instance.endOfFrame.then((_) async {
-        await Future<void>.delayed(const Duration(milliseconds: 500));
-        _presentMainScreen();
+        await _presentMainScreen();
       }),
     );
   }
@@ -26,11 +25,13 @@ class _LaunchScreenState extends State<LaunchScreen> {
     return const Scaffold(backgroundColor: Colors.green);
   }
 
-  void _presentMainScreen() {
-    unawaited(
-      Navigator.of(
+  Future<void> _presentMainScreen() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    if (mounted) {
+      await Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (context) => const MainScreen())),
-    );
+      ).push(MaterialPageRoute<void>(builder: (context) => const MainScreen()));
+    }
+    await _presentMainScreen();
   }
 }
