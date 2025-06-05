@@ -30,9 +30,12 @@ class _MainScreenState extends State<MainScreen> {
                 aspectRatio: 1,
                 child: _forecast?.condition?.svgImage ?? const Placeholder(),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: _TemperatureLabelContent(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: _TemperatureLabelContent(
+                  maxTemperature: _forecast?.maxTemperature,
+                  minTemperature: _forecast?.minTemperature,
+                ),
               ),
               Expanded(
                 child: Column(
@@ -98,7 +101,14 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class _TemperatureLabelContent extends StatelessWidget {
-  const _TemperatureLabelContent();
+  const _TemperatureLabelContent({
+    required int? maxTemperature,
+    required int? minTemperature,
+  }) : _maxTemperature = maxTemperature,
+       _minTemperature = minTemperature;
+
+  final int? _maxTemperature;
+  final int? _minTemperature;
 
   @override
   Widget build(BuildContext context) {
@@ -108,14 +118,14 @@ class _TemperatureLabelContent extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            '** ℃',
+            '${_minTemperature ?? '**'}℃',
             style: temperatureLabelStyle?.copyWith(color: Colors.blue),
             textAlign: TextAlign.center,
           ),
         ),
         Expanded(
           child: Text(
-            '** ℃',
+            '${_maxTemperature ?? '**'}℃',
             style: temperatureLabelStyle?.copyWith(color: Colors.red),
             textAlign: TextAlign.center,
           ),
