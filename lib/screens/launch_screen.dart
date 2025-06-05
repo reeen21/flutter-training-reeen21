@@ -23,9 +23,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green,
-    );
+    return const Scaffold(backgroundColor: Colors.green);
   }
 
   void _presentMainScreen() {
