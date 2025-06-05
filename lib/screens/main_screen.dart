@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
+import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
@@ -14,7 +15,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _service = YumemiWeatherService();
-  WeatherCondition? _condition;
+  WeatherForecast? _forecast;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
               const Spacer(),
               AspectRatio(
                 aspectRatio: 1,
-                child: _condition?.svgImage ?? const Placeholder(),
+                child: _forecast?.condition?.svgImage ?? const Placeholder(),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
@@ -53,12 +54,9 @@ class _MainScreenState extends State<MainScreen> {
 
   void _updateWeatherCondition() {
     try {
-      final weatherConditionString = _service.fetchWeather();
-      final newCondition = WeatherCondition.fromNameOrNull(
-        weatherConditionString,
-      );
+      final newWeatherForecast = _service.fetchWeather();
       setState(() {
-        _condition = newCondition;
+        _forecast = newWeatherForecast;
       });
     } on YumemiWeatherError catch (e) {
       _showErrorDialog(e);

@@ -1,3 +1,4 @@
+import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class YumemiWeatherService {
@@ -6,7 +7,14 @@ class YumemiWeatherService {
 
   final YumemiWeather _yumemiWeather;
 
-  String fetchWeather() {
-    return _yumemiWeather.fetchThrowsWeather('tokyo');
+  final _jsonString = '''
+   {
+       "area": "tokyo",
+       "date": "2020-04-01T12:00:00+09:00"
+   }''';
+
+  WeatherForecast fetchWeather() {
+    final response = _yumemiWeather.fetchWeather(_jsonString);
+    return WeatherForecast.fromJson(response);
   }
 }
