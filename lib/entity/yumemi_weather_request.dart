@@ -1,12 +1,12 @@
-class YumemiWeatherRequest {
-  const YumemiWeatherRequest({required this.city, required this.date});
-  final String city;
-  final DateTime date;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  Map<String, String> toJson() {
-    return {
-      'area': city,
-      'date': date.toIso8601String(),
-    };
-  }
+part 'yumemi_weather_request.freezed.dart';
+part 'yumemi_weather_request.g.dart';
+
+@Freezed(toJson: true)
+sealed class YumemiWeatherRequest with _$YumemiWeatherRequest {
+  const factory YumemiWeatherRequest({
+    required String area,
+    required DateTime date,
+  }) = _YumemiWeatherRequest;
 }
