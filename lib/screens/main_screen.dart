@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     const SizedBox(height: 80),
                     _FooterButtonContent(
-                      onCloseTapped: () {}, // TODO: Add close action.
+                      onCloseTapped: _closeMainScreen,
                       onReloadTapped: _updateWeatherCondition,
                     ),
                   ],
@@ -54,6 +54,10 @@ class _MainScreenState extends State<MainScreen> {
       _condition =
           WeatherCondition.fromNameOrNull(weatherConditionString);
     });
+  }
+
+  void _closeMainScreen() {
+      Navigator.pop(context);
   }
 }
 
