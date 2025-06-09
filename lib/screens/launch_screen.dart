@@ -15,23 +15,22 @@ class _LaunchScreenState extends State<LaunchScreen> with FrameCompleteAction {
   void initState() {
     super.initState();
     runAfterFrame(() async {
-      await Future<void>.delayed(const Duration(milliseconds: 500));
-      _presentMainScreen();
+      await _presentMainScreen();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green,
-    );
+    return const Scaffold(backgroundColor: Colors.green);
   }
 
-  void _presentMainScreen() {
-    unawaited(
-      Navigator.of(
+  Future<void> _presentMainScreen() async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    if (mounted) {
+      await Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (context) => const MainScreen())),
-    );
+      ).push(MaterialPageRoute<void>(builder: (context) => const MainScreen()));
+    }
+    await _presentMainScreen();
   }
 }
