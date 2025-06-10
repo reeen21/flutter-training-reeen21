@@ -55,8 +55,8 @@ class _MainScreenState extends State<MainScreen> {
       try {
         final weatherConditionString = _service.fetchWeather();
         _condition = WeatherCondition.fromNameOrNull(weatherConditionString);
-      } on YumemiWeatherError {
-        _showErrorDialog();
+      } on YumemiWeatherError catch (e) {
+        _showErrorDialog(e);
       }
     });
   }
@@ -65,15 +65,27 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.pop(context);
   }
 
-  void _showErrorDialog() {
+  void _showErrorDialog(YumemiWeatherError error) {
+    String title;
+    String message;
+
+    switch (error) {
+      case YumemiWeatherError.invalidParameter:
+        title = 'パラメータエラー';
+        message = 'リクエストの形式に誤りがあります。';
+      case YumemiWeatherError.unknown:
+        title = 'エラー';
+        message = '予期せぬエラーが発生しました。再度読み込んでください。';
+    }
+
     unawaited(
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: const Text('天気の取得に失敗しました。'),
-            content: const Text('再度読み込んでください。'),
+            title: Text(title),
+            content: Text(message),
             actions: [
               TextButton(
                 style: ButtonStyle(
