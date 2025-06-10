@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
+import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
@@ -66,26 +67,14 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _showErrorDialog(YumemiWeatherError error) {
-    String title;
-    String message;
-
-    switch (error) {
-      case YumemiWeatherError.invalidParameter:
-        title = 'パラメータエラー';
-        message = 'リクエストの形式に誤りがあります。';
-      case YumemiWeatherError.unknown:
-        title = 'エラー';
-        message = '予期せぬエラーが発生しました。再度読み込んでください。';
-    }
-
     unawaited(
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
+            title: Text(error.title),
+            content: Text(error.message),
             actions: [
               TextButton(
                 style: ButtonStyle(
