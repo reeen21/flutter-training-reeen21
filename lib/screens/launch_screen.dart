@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_training/mixins/frame_complete_action.dart';
 import 'package:flutter_training/screens/main_screen.dart';
 
 class LaunchScreen extends StatefulWidget {
@@ -9,15 +10,13 @@ class LaunchScreen extends StatefulWidget {
   State<LaunchScreen> createState() => _LaunchScreenState();
 }
 
-class _LaunchScreenState extends State<LaunchScreen> {
+class _LaunchScreenState extends State<LaunchScreen> with FrameCompleteAction {
   @override
   void initState() {
     super.initState();
-    unawaited(
-      WidgetsBinding.instance.endOfFrame.then((_) async {
-        await _presentMainScreen();
-      }),
-    );
+    runAfterFrame(() async {
+      await _presentMainScreen();
+    });
   }
 
   @override
