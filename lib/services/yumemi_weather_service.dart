@@ -7,6 +7,6 @@ class YumemiWeatherService {
   final YumemiWeather _yumemiWeather;
 
   String fetchWeather() {
-    return _yumemiWeather.fetchSimpleWeather();
+    return _yumemiWeather.fetchThrowsWeather('tokyo');
   }
 }

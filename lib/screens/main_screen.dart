@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
+import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
+import 'package:yumemi_weather/yumemi_weather.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -49,15 +52,50 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _updateWeatherCondition() {
-    final weatherConditionString = _service.fetchWeather();
-    setState(() {
-      _condition =
-          WeatherCondition.fromNameOrNull(weatherConditionString);
-    });
+    try {
+      final weatherConditionString = _service.fetchWeather();
+      final newCondition = WeatherCondition.fromNameOrNull(
+        weatherConditionString,
+      );
+      setState(() {
+        _condition = newCondition;
+      });
+    } on YumemiWeatherError catch (e) {
+      _showErrorDialog(e);
+    }
   }
 
   void _closeMainScreen() {
-      Navigator.pop(context);
+    Navigator.pop(context);
+  }
+
+  void _showErrorDialog(YumemiWeatherError error) {
+    unawaited(
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(error.title),
+            content: Text(error.message),
+            actions: [
+              TextButton(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    Colors.blue,
+                  ),
+                  foregroundColor: WidgetStateProperty.all<Color>(
+                    Colors.white,
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }
 
