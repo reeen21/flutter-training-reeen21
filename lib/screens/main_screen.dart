@@ -52,14 +52,17 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _updateWeatherCondition() {
-    setState(() {
-      try {
-        final weatherConditionString = _service.fetchWeather();
-        _condition = WeatherCondition.fromNameOrNull(weatherConditionString);
-      } on YumemiWeatherError catch (e) {
-        _showErrorDialog(e);
-      }
-    });
+    try {
+      final weatherConditionString = _service.fetchWeather();
+      final newCondition = WeatherCondition.fromNameOrNull(
+        weatherConditionString,
+      );
+      setState(() {
+        _condition = newCondition;
+      });
+    } on YumemiWeatherError catch (e) {
+      _showErrorDialog(e);
+    }
   }
 
   void _closeMainScreen() {
