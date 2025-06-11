@@ -61,8 +61,13 @@ class _MainScreenState extends State<MainScreen> {
       setState(() {
         _forecast = newWeatherForecast;
       });
-    } on YumemiWeatherError catch (e) {
-      _showErrorDialog(e);
+    } on YumemiWeatherError catch (error) {
+      _showErrorDialog(title: error.title, message: error.message);
+    } on FormatException catch (error) {
+      _showErrorDialog(
+        title: 'フォーマットエラー',
+        message: error.message,
+      );
     }
   }
 
@@ -70,15 +75,15 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.pop(context);
   }
 
-  void _showErrorDialog(YumemiWeatherError error) {
+  void _showErrorDialog({required String title, required String message}) {
     unawaited(
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(error.title),
-            content: Text(error.message),
+            title: Text(title),
+            content: Text(message),
             actions: [
               TextButton(
                 style: ButtonStyle(

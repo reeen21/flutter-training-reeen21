@@ -11,8 +11,14 @@ class WeatherForecast {
     final condition = WeatherCondition.fromNameOrNull(
       weatherForecast['weather_condition'] as String?,
     );
-    final maxTemperature = weatherForecast['max_temperature'] as int;
-    final minTemperature = weatherForecast['min_temperature'] as int;
+
+    final maxTemperature = _parseTemperature(
+      weatherForecast['max_temperature'].toString(),
+    );
+
+    final minTemperature = _parseTemperature(
+      weatherForecast['min_temperature'].toString(),
+    );
 
     return WeatherForecast(
       condition: condition,
@@ -24,4 +30,14 @@ class WeatherForecast {
   final WeatherCondition? condition;
   final int maxTemperature;
   final int minTemperature;
+
+  static int _parseTemperature(String temperature) {
+    final parsedTemperature = int.tryParse(temperature);
+    if (parsedTemperature == null) {
+      throw FormatException(
+        "変換エラー: '$temperature' は数値に変換できません",
+      );
+    }
+    return parsedTemperature;
+  }
 }
