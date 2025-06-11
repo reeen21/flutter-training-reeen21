@@ -22,6 +22,6 @@ class WeatherForecast {
   }
 
   final WeatherCondition? condition;
-  final int? maxTemperature;
-  final int? minTemperature;
+  final int maxTemperature;
+  final int minTemperature;
 }
