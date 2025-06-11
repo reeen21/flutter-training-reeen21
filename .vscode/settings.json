@@ -6,5 +6,10 @@
   "files.watcherExclude": {
     "**/.fvm": true
   },
-  "cSpell.ignoreWords": ["yumemi"]
+  "cSpell.ignoreWords": [
+    "yumemi"
+  ],
+  "cSpell.words": [
+    "riverpod"
+  ]
 }
