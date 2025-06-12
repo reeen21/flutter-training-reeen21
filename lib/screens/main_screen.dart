@@ -1,18 +1,31 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_training/action/weather_action.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
 import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
-import 'package:flutter_training/notifier/weather_forecast_notifier.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yumemi_weather/yumemi_weather.dart';
+import 'package:flutter_training/store/weather_store.dart';
 
 class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weatherForecast = ref.watch(weatherForecastNotifierProvider);
+    final weatherStore = ref.watch(weatherStoreProvider);
+
+    ref.listen<WeatherState>(
+      weatherStoreProvider,
+      (previous, next) {
+        final error = next.error;
+        if (error != null) {
+          _showErrorDialog(
+            context,
+            title: error.title,
+            message: error.message,
+          );
+        }
+      },
+    );
 
     return Scaffold(
       body: Center(
@@ -24,13 +37,16 @@ class MainScreen extends ConsumerWidget {
               AspectRatio(
                 aspectRatio: 1,
                 child:
-                    weatherForecast?.condition.svgImage ?? const Placeholder(),
+                    weatherStore.weatherForecast?.condition.svgImage ??
+                    const Placeholder(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: _TemperatureLabelContent(
-                  maxTemperature: weatherForecast?.maxTemperature,
-                  minTemperature: weatherForecast?.minTemperature,
+                  maxTemperature:
+                      weatherStore.weatherForecast?.maxTemperature,
+                  minTemperature:
+                      weatherStore.weatherForecast?.minTemperature,
                 ),
               ),
               Expanded(
@@ -53,26 +69,14 @@ class MainScreen extends ConsumerWidget {
   }
 
   void _updateWeatherCondition(BuildContext context, WidgetRef ref) {
-    try {
-      ref
-          .read(weatherForecastNotifierProvider.notifier)
-          .fetchWeather(
+    ref
+        .read(weatherStoreProvider.notifier)
+        .dispatch(
+          WeatherAction.fetchWeather(
             city: 'tokyo',
             date: DateTime.now(),
-          );
-    } on YumemiWeatherError catch (e) {
-      _showErrorDialog(
-        context,
-        title: e.title,
-        message: e.message,
-      );
-    } on CheckedFromJsonException {
-      _showErrorDialog(
-        context,
-        title: 'データ形式エラー',
-        message: '天気予報データの形式が正しくありません。データの形式を確認してください。',
-      );
-    }
+          )
+    );
   }
 
   void _closeMainScreen(BuildContext context) {
