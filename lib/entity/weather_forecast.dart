@@ -9,8 +9,15 @@ class WeatherForecast {
 
   factory WeatherForecast.fromJson(Map<String, dynamic> weatherForecast) {
     final condition = WeatherCondition.fromNameOrNull(
-      weatherForecast['weather_condition'] as String?,
+      weatherForecast['weather_condition'].toString(),
     );
+    if (condition == null) {
+      throw FormatException(
+        // 改行してしまうと読みにくいので無視
+        // ignore: lines_longer_than_80_chars
+        "変換エラー: '${weatherForecast['weather_condition']}' はWeatherConditionに変換できません",
+      );
+    }
 
     final maxTemperature = _parseTemperature(
       weatherForecast['max_temperature'].toString(),
@@ -27,7 +34,7 @@ class WeatherForecast {
     );
   }
 
-  final WeatherCondition? condition;
+  final WeatherCondition condition;
   final int maxTemperature;
   final int minTemperature;
 
