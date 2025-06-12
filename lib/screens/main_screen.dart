@@ -57,7 +57,10 @@ class _MainScreenState extends State<MainScreen> {
 
   void _updateWeatherCondition() {
     try {
-      final newWeatherForecast = _service.fetchWeather();
+      final newWeatherForecast = _service.fetchWeather(
+        city: 'tokyo',
+        date: DateTime.now(),
+      );
       setState(() {
         _forecast = newWeatherForecast;
       });
