@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
+import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
@@ -14,7 +15,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final _service = YumemiWeatherService();
-  WeatherCondition? _condition;
+  WeatherForecast? _forecast;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +28,14 @@ class _MainScreenState extends State<MainScreen> {
               const Spacer(),
               AspectRatio(
                 aspectRatio: 1,
-                child: _condition?.svgImage ?? const Placeholder(),
+                child: _forecast?.condition.svgImage ?? const Placeholder(),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16),
-                child: _TemperatureLabelContent(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: _TemperatureLabelContent(
+                  maxTemperature: _forecast?.maxTemperature,
+                  minTemperature: _forecast?.minTemperature,
+                ),
               ),
               Expanded(
                 child: Column(
@@ -53,15 +57,20 @@ class _MainScreenState extends State<MainScreen> {
 
   void _updateWeatherCondition() {
     try {
-      final weatherConditionString = _service.fetchWeather();
-      final newCondition = WeatherCondition.fromNameOrNull(
-        weatherConditionString,
+      final newWeatherForecast = _service.fetchWeather(
+        city: 'tokyo',
+        date: DateTime.now(),
       );
       setState(() {
-        _condition = newCondition;
+        _forecast = newWeatherForecast;
       });
-    } on YumemiWeatherError catch (e) {
-      _showErrorDialog(e);
+    } on YumemiWeatherError catch (error) {
+      _showErrorDialog(title: error.title, message: error.message);
+    } on FormatException catch (error) {
+      _showErrorDialog(
+        title: 'フォーマットエラー',
+        message: error.message,
+      );
     }
   }
 
@@ -69,15 +78,15 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.pop(context);
   }
 
-  void _showErrorDialog(YumemiWeatherError error) {
+  void _showErrorDialog({required String title, required String message}) {
     unawaited(
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(error.title),
-            content: Text(error.message),
+            title: Text(title),
+            content: Text(message),
             actions: [
               TextButton(
                 style: ButtonStyle(
@@ -100,7 +109,14 @@ class _MainScreenState extends State<MainScreen> {
 }
 
 class _TemperatureLabelContent extends StatelessWidget {
-  const _TemperatureLabelContent();
+  const _TemperatureLabelContent({
+    required int? maxTemperature,
+    required int? minTemperature,
+  }) : _maxTemperature = maxTemperature,
+       _minTemperature = minTemperature;
+
+  final int? _maxTemperature;
+  final int? _minTemperature;
 
   @override
   Widget build(BuildContext context) {
@@ -110,14 +126,14 @@ class _TemperatureLabelContent extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            '** ℃',
+            '${_minTemperature ?? '**'}℃',
             style: temperatureLabelStyle?.copyWith(color: Colors.blue),
             textAlign: TextAlign.center,
           ),
         ),
         Expanded(
           child: Text(
-            '** ℃',
+            '${_maxTemperature ?? '**'}℃',
             style: temperatureLabelStyle?.copyWith(color: Colors.red),
             textAlign: TextAlign.center,
           ),

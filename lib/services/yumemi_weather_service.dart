@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:flutter_training/entity/weather_forecast.dart';
+import 'package:flutter_training/entity/yumemi_weather_request.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class YumemiWeatherService {
@@ -6,7 +9,13 @@ class YumemiWeatherService {
 
   final YumemiWeather _yumemiWeather;
 
-  String fetchWeather() {
-    return _yumemiWeather.fetchThrowsWeather('tokyo');
+  WeatherForecast fetchWeather({required String city, required DateTime date}) {
+    final request = YumemiWeatherRequest(
+      city: city,
+      date: date,
+    );
+    final response = _yumemiWeather.fetchWeather(jsonEncode(request.toJson()));
+    final formattedResponse = jsonDecode(response) as Map<String, dynamic>;
+    return WeatherForecast.fromJson(formattedResponse);
   }
 }
