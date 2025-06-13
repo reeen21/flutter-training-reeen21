@@ -5,4 +5,5 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
   errors:
+  # 　ref: https://pub.dev/packages/freezed#disabling-invalid_annotation_target-warning-and-warning-in-generates-files
     invalid_annotation_target: ignore
