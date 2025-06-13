@@ -4,6 +4,7 @@ import 'package:flutter_training/entity/weather_condition.dart';
 import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
 class MainScreen extends StatefulWidget {
@@ -66,10 +67,10 @@ class _MainScreenState extends State<MainScreen> {
       });
     } on YumemiWeatherError catch (error) {
       _showErrorDialog(title: error.title, message: error.message);
-    } on FormatException catch (error) {
+    } on CheckedFromJsonException {
       _showErrorDialog(
         title: 'フォーマットエラー',
-        message: error.message,
+        message: 'フォーマットエラーが発生しました',
       );
     }
   }
