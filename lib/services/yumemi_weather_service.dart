@@ -10,10 +10,7 @@ class YumemiWeatherService {
   final YumemiWeather _yumemiWeather;
 
   WeatherForecast fetchWeather({required String city, required DateTime date}) {
-    final request = YumemiWeatherRequest(
-      city: city,
-      date: date,
-    );
+    final request = YumemiWeatherRequest(area: city, date: date);
     final response = _yumemiWeather.fetchWeather(jsonEncode(request.toJson()));
     final formattedResponse = jsonDecode(response) as Map<String, dynamic>;
     return WeatherForecast.fromJson(formattedResponse);
