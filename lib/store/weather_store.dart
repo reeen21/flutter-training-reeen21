@@ -1,6 +1,6 @@
 import 'package:flutter_training/action/weather_action.dart';
 import 'package:flutter_training/entity/weather_forecast.dart';
-import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
+import 'package:flutter_training/error/app_error.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

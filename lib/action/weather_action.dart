@@ -1,5 +1,5 @@
 import 'package:flutter_training/entity/weather_forecast.dart';
-import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
+import 'package:flutter_training/error/app_error.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'weather_action.freezed.dart';
