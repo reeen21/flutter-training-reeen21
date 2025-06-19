@@ -2,7 +2,7 @@ import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'weather_forecast_state.g.dart';
+part 'weather_forecast_notifier.g.dart';
 
 @riverpod
 class WeatherForecastNotifier extends _$WeatherForecastNotifier {

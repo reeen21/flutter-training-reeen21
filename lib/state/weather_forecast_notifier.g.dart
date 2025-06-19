@@ -2,14 +2,14 @@
 
 // ignore_for_file: type=lint
 
-part of 'weather_forecast_state.dart';
+part of 'weather_forecast_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
 String _$weatherForecastNotifierHash() =>
-    r'cd79176232d1e8fe7d45c32d850290e20da48c34';
+    r'7f40c6d3bd8f5832249b95b4a8e87b8f3a43bdbd';
 
 /// See also [WeatherForecastNotifier].
 @ProviderFor(WeatherForecastNotifier)
