@@ -12,7 +12,7 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weatherForecast = ref.watch(weatherForecastStateProvider);
+    final weatherForecast = ref.watch(weatherForecastNotifierProvider);
 
     return Scaffold(
       body: Center(
@@ -55,7 +55,7 @@ class MainScreen extends ConsumerWidget {
   void _updateWeatherCondition(BuildContext context, WidgetRef ref) {
     try {
       ref
-          .read(weatherForecastStateProvider.notifier)
+          .read(weatherForecastNotifierProvider.notifier)
           .fetchWeather(
             city: 'tokyo',
             date: DateTime.now(),
