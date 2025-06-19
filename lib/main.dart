@@ -11,6 +11,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ProviderScope(child: MaterialApp(home: LaunchScreen()));
+    return const MaterialApp(home: LaunchScreen());
   }
 }
