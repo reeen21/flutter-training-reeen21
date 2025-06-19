@@ -1,25 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
-import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
-import 'package:flutter_training/services/yumemi_weather_service.dart';
+import 'package:flutter_training/notifier/weather_forecast_notifier.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final weatherForecast = ref.watch(weatherForecastNotifierProvider);
 
-class _MainScreenState extends State<MainScreen> {
-  final _service = YumemiWeatherService();
-  WeatherForecast? _forecast;
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: FractionallySizedBox(
@@ -29,13 +23,14 @@ class _MainScreenState extends State<MainScreen> {
               const Spacer(),
               AspectRatio(
                 aspectRatio: 1,
-                child: _forecast?.condition.svgImage ?? const Placeholder(),
+                child:
+                    weatherForecast?.condition.svgImage ?? const Placeholder(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: _TemperatureLabelContent(
-                  maxTemperature: _forecast?.maxTemperature,
-                  minTemperature: _forecast?.minTemperature,
+                  maxTemperature: weatherForecast?.maxTemperature,
+                  minTemperature: weatherForecast?.minTemperature,
                 ),
               ),
               Expanded(
@@ -43,8 +38,9 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     const SizedBox(height: 80),
                     _FooterButtonContent(
-                      onCloseTapped: _closeMainScreen,
-                      onReloadTapped: _updateWeatherCondition,
+                      onCloseTapped: () => _closeMainScreen(context),
+                      onReloadTapped: () =>
+                          _updateWeatherCondition(context, ref),
                     ),
                   ],
                 ),
@@ -56,30 +52,38 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _updateWeatherCondition() {
+  void _updateWeatherCondition(BuildContext context, WidgetRef ref) {
     try {
-      final newWeatherForecast = _service.fetchWeather(
-        city: 'tokyo',
-        date: DateTime.now(),
+      ref
+          .read(weatherForecastNotifierProvider.notifier)
+          .fetchWeather(
+            city: 'tokyo',
+            date: DateTime.now(),
+          );
+    } on YumemiWeatherError catch (e) {
+      _showErrorDialog(
+        context,
+        title: e.title,
+        message: e.message,
       );
-      setState(() {
-        _forecast = newWeatherForecast;
-      });
-    } on YumemiWeatherError catch (error) {
-      _showErrorDialog(title: error.title, message: error.message);
     } on CheckedFromJsonException {
       _showErrorDialog(
-        title: 'フォーマットエラー',
-        message: 'フォーマットエラーが発生しました',
+        context,
+        title: 'データ形式エラー',
+        message: '天気予報データの形式が正しくありません。データの形式を確認してください。',
       );
     }
   }
 
-  void _closeMainScreen() {
+  void _closeMainScreen(BuildContext context) {
     Navigator.pop(context);
   }
 
-  void _showErrorDialog({required String title, required String message}) {
+  void _showErrorDialog(
+    BuildContext context, {
+    required String title,
+    required String message,
+  }) {
     unawaited(
       showDialog(
         context: context,
