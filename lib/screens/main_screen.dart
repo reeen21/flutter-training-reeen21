@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/action/weather_action.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
-import 'package:flutter_training/error/app_error.dart';
 import 'package:flutter_training/store/weather_store.dart';
 
 class MainScreen extends ConsumerWidget {
