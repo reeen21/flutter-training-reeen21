@@ -1,6 +1,8 @@
 include: package:yumemi_lints/flutter/3.32/recommended.yaml
 
 analyzer:
+  plugins:
+    - custom_lint
   errors:
-  # 　ref: https://pub.dev/packages/freezed#disabling-invalid_annotation_target-warning-and-warning-in-generates-files
+    # 　ref: https://pub.dev/packages/freezed#disabling-invalid_annotation_target-warning-and-warning-in-generates-files
     invalid_annotation_target: ignore
