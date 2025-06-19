@@ -1,7 +1,16 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:flutter_training/entity/yumemi_weather_request.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
+
+part 'yumemi_weather_service.g.dart';
+
+@riverpod
+YumemiWeatherService yumemiWeatherService(Ref ref) {
+  return YumemiWeatherService();
+}
 
 class YumemiWeatherService {
   YumemiWeatherService([YumemiWeather? yumemiWeather])

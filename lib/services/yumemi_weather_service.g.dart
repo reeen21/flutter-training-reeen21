@@ -2,31 +2,30 @@
 
 // ignore_for_file: type=lint
 
-part of 'weather_forecast_state.dart';
+part of 'yumemi_weather_service.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$weatherForecastStateHash() =>
-    r'9a8332514df9443038c4cf8226f0469d3b377914';
+String _$yumemiWeatherServiceHash() =>
+    r'b0123bd896e761d6f52730579bdcdee773f8c88a';
 
-/// See also [WeatherForecastState].
-@ProviderFor(WeatherForecastState)
-final weatherForecastStateProvider =
-    AutoDisposeNotifierProvider<
-      WeatherForecastState,
-      WeatherForecast?
-    >.internal(
-      WeatherForecastState.new,
-      name: r'weatherForecastStateProvider',
+/// See also [yumemiWeatherService].
+@ProviderFor(yumemiWeatherService)
+final yumemiWeatherServiceProvider =
+    AutoDisposeProvider<YumemiWeatherService>.internal(
+      yumemiWeatherService,
+      name: r'yumemiWeatherServiceProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$weatherForecastStateHash,
+          : _$yumemiWeatherServiceHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$WeatherForecastState = AutoDisposeNotifier<WeatherForecast?>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef YumemiWeatherServiceRef = AutoDisposeProviderRef<YumemiWeatherService>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -6,12 +6,11 @@ part 'weather_forecast_state.g.dart';
 
 @riverpod
 class WeatherForecastState extends _$WeatherForecastState {
-  final _service = YumemiWeatherService();
-
   @override
   WeatherForecast? build() => null;
 
   void fetchWeather({required String city, required DateTime date}) {
-    state = _service.fetchWeather(city: city, date: date);
+    final service = ref.read(yumemiWeatherServiceProvider);
+    state = service.fetchWeather(city: city, date: date);
   }
 }
