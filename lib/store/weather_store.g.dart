@@ -2,31 +2,27 @@
 
 // ignore_for_file: type=lint
 
-part of 'weather_forecast_notifier.dart';
+part of 'weather_store.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$weatherForecastNotifierHash() =>
-    r'7f40c6d3bd8f5832249b95b4a8e87b8f3a43bdbd';
+String _$weatherStoreHash() => r'847b3fd88ac0ea075e27ec9b407d1e1739989fb7';
 
-/// See also [WeatherForecastNotifier].
-@ProviderFor(WeatherForecastNotifier)
-final weatherForecastNotifierProvider =
-    AutoDisposeNotifierProvider<
-      WeatherForecastNotifier,
-      WeatherForecast?
-    >.internal(
-      WeatherForecastNotifier.new,
-      name: r'weatherForecastNotifierProvider',
+/// See also [WeatherStore].
+@ProviderFor(WeatherStore)
+final weatherStoreProvider =
+    AutoDisposeNotifierProvider<WeatherStore, WeatherState>.internal(
+      WeatherStore.new,
+      name: r'weatherStoreProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$weatherForecastNotifierHash,
+          : _$weatherStoreHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$WeatherForecastNotifier = AutoDisposeNotifier<WeatherForecast?>;
+typedef _$WeatherStore = AutoDisposeNotifier<WeatherState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
