@@ -69,8 +69,8 @@ class MainScreen extends ConsumerWidget {
     } on CheckedFromJsonException {
       _showErrorDialog(
         context,
-        title: 'フォーマットエラーが発生しました',
-        message: 'フォーマットエラーが発生しました',
+        title: 'データ形式エラー',
+        message: '天気予報データの形式が正しくありません。データの形式を確認してください。',
       );
     }
   }
