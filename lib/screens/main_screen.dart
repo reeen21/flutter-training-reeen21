@@ -5,7 +5,7 @@ import 'package:flutter_training/action/weather_action.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
 import 'package:flutter_training/store/weather_store.dart';
 
-class MainScreen extends ConsumerWidget {
+final class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
   @override
@@ -115,7 +115,7 @@ class MainScreen extends ConsumerWidget {
   }
 }
 
-class _TemperatureLabelContent extends StatelessWidget {
+final class _TemperatureLabelContent extends StatelessWidget {
   const _TemperatureLabelContent({
     required int? maxTemperature,
     required int? minTemperature,
@@ -150,7 +150,7 @@ class _TemperatureLabelContent extends StatelessWidget {
   }
 }
 
-class _FooterButtonContent extends StatelessWidget {
+final class _FooterButtonContent extends StatelessWidget {
   const _FooterButtonContent({
     required VoidCallback onReloadTapped,
     required VoidCallback onCloseTapped,

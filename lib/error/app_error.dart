@@ -1,13 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
-abstract class AppError {
+abstract final class AppError {
   const AppError();
   String get title;
   String get message;
 }
 
-class WeatherAppError extends AppError {
+final class WeatherAppError extends AppError {
   const WeatherAppError(this.weatherError);
   final YumemiWeatherError weatherError;
 
@@ -24,7 +24,7 @@ class WeatherAppError extends AppError {
   };
 }
 
-class UnknownAppError extends AppError {
+final class UnknownAppError extends AppError {
   const UnknownAppError();
 
   @override
@@ -34,7 +34,7 @@ class UnknownAppError extends AppError {
   String get message => '再度読み込んでください。';
 }
 
-class FormatAppError extends AppError {
+final class FormatAppError extends AppError {
   const FormatAppError(this.formatError);
   final CheckedFromJsonException formatError;
 

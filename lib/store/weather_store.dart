@@ -18,7 +18,7 @@ sealed class WeatherState with _$WeatherState {
 }
 
 @riverpod
-class WeatherStore extends _$WeatherStore {
+final class WeatherStore extends _$WeatherStore {
   @override
   WeatherState build() => const WeatherState();
 
