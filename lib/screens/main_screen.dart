@@ -10,7 +10,9 @@ class MainScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weatherStore = ref.watch(weatherStoreProvider);
+    final weatherForecast = ref.watch(
+      weatherStoreProvider.select((w) => w.weatherForecast),
+    );
 
     ref.listen<WeatherState>(
       weatherStoreProvider,
@@ -36,16 +38,13 @@ class MainScreen extends ConsumerWidget {
               AspectRatio(
                 aspectRatio: 1,
                 child:
-                    weatherStore.weatherForecast?.condition.svgImage ??
-                    const Placeholder(),
+                    weatherForecast?.condition.svgImage ?? const Placeholder(),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: _TemperatureLabelContent(
-                  maxTemperature:
-                      weatherStore.weatherForecast?.maxTemperature,
-                  minTemperature:
-                      weatherStore.weatherForecast?.minTemperature,
+                  maxTemperature: weatherForecast?.maxTemperature,
+                  minTemperature: weatherForecast?.minTemperature,
                 ),
               ),
               Expanded(
@@ -74,8 +73,8 @@ class MainScreen extends ConsumerWidget {
           WeatherAction.fetchWeather(
             city: 'tokyo',
             date: DateTime.now(),
-          )
-    );
+          ),
+        );
   }
 
   void _closeMainScreen(BuildContext context) {
