@@ -33,7 +33,10 @@ void dispatch(WeatherAction action) {
 ### データフロー
 ```mermaid
 graph TD
-  UI-->Action-->Store-->State--Riverpod-->UI
+  UI --> Action
+  Action --> Store
+  Store --> Provider["Provider with State"]
+  Provider -- watch --> UI
 ```
 
 1. **UI**でユーザーアクション発生
