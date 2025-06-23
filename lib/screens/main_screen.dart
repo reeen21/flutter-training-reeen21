@@ -16,7 +16,7 @@ final class MainScreen extends ConsumerWidget {
 
     ref.listen<WeatherState>(
       weatherStoreProvider,
-      (previous, next) {
+      (_, next) {
         final error = next.error;
         if (error != null) {
           _showErrorDialog(
