@@ -192,7 +192,7 @@ class FetchWeatherErrorAction implements WeatherAction {
   const FetchWeatherErrorAction({required this.error});
   
 
- final  AppError error;
+ final  AppException error;
 
 /// Create a copy of WeatherAction
 /// with the given fields replaced by the non-null parameter values.
@@ -224,7 +224,7 @@ abstract mixin class $FetchWeatherErrorActionCopyWith<$Res> implements $WeatherA
   factory $FetchWeatherErrorActionCopyWith(FetchWeatherErrorAction value, $Res Function(FetchWeatherErrorAction) _then) = _$FetchWeatherErrorActionCopyWithImpl;
 @useResult
 $Res call({
- AppError error
+ AppException error
 });
 
 
@@ -244,7 +244,7 @@ class _$FetchWeatherErrorActionCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? error = null,}) {
   return _then(FetchWeatherErrorAction(
 error: null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as AppError,
+as AppException,
   ));
 }
 

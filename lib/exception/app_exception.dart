@@ -1,13 +1,13 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yumemi_weather/yumemi_weather.dart';
 
-abstract final class AppError {
-  const AppError();
+abstract final class AppException {
+  const AppException();
   String get title;
   String get message;
 }
 
-final class WeatherAppError extends AppError {
+final class WeatherAppError extends AppException {
   const WeatherAppError(this.weatherError);
   final YumemiWeatherError weatherError;
 
@@ -24,7 +24,7 @@ final class WeatherAppError extends AppError {
   };
 }
 
-final class FormatAppError extends AppError {
+final class FormatAppError extends AppException {
   const FormatAppError(this.formatError);
   final CheckedFromJsonException formatError;
 
@@ -36,13 +36,13 @@ final class FormatAppError extends AppError {
 }
 
 extension YumemiWeatherErrorExtension on YumemiWeatherError {
-  AppError toAppError() {
+  AppException toAppError() {
     return WeatherAppError(this);
   }
 }
 
 extension CheckedFromJsonExceptionExtension on CheckedFromJsonException {
-  AppError toAppError() {
+  AppException toAppError() {
     return FormatAppError(this);
   }
 }

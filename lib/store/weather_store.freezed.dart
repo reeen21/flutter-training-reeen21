@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WeatherState {
 
- WeatherForecast? get weatherForecast; AppError? get error;
+ WeatherForecast? get weatherForecast; AppException? get error;
 /// Create a copy of WeatherState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -46,7 +46,7 @@ abstract mixin class $WeatherStateCopyWith<$Res>  {
   factory $WeatherStateCopyWith(WeatherState value, $Res Function(WeatherState) _then) = _$WeatherStateCopyWithImpl;
 @useResult
 $Res call({
- WeatherForecast? weatherForecast, AppError? error
+ WeatherForecast? weatherForecast, AppException? error
 });
 
 
@@ -67,7 +67,7 @@ class _$WeatherStateCopyWithImpl<$Res>
   return _then(_self.copyWith(
 weatherForecast: freezed == weatherForecast ? _self.weatherForecast : weatherForecast // ignore: cast_nullable_to_non_nullable
 as WeatherForecast?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as AppError?,
+as AppException?,
   ));
 }
 /// Create a copy of WeatherState
@@ -94,7 +94,7 @@ class _WeatherState implements WeatherState {
   
 
 @override@JsonKey() final  WeatherForecast? weatherForecast;
-@override@JsonKey() final  AppError? error;
+@override@JsonKey() final  AppException? error;
 
 /// Create a copy of WeatherState
 /// with the given fields replaced by the non-null parameter values.
@@ -126,7 +126,7 @@ abstract mixin class _$WeatherStateCopyWith<$Res> implements $WeatherStateCopyWi
   factory _$WeatherStateCopyWith(_WeatherState value, $Res Function(_WeatherState) _then) = __$WeatherStateCopyWithImpl;
 @override @useResult
 $Res call({
- WeatherForecast? weatherForecast, AppError? error
+ WeatherForecast? weatherForecast, AppException? error
 });
 
 
@@ -147,7 +147,7 @@ class __$WeatherStateCopyWithImpl<$Res>
   return _then(_WeatherState(
 weatherForecast: freezed == weatherForecast ? _self.weatherForecast : weatherForecast // ignore: cast_nullable_to_non_nullable
 as WeatherForecast?,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as AppError?,
+as AppException?,
   ));
 }
 

@@ -1,6 +1,6 @@
 import 'package:flutter_training/action/weather_action.dart';
 import 'package:flutter_training/entity/weather_forecast.dart';
-import 'package:flutter_training/error/app_error.dart';
+import 'package:flutter_training/exception/app_exception.dart';
 import 'package:flutter_training/services/yumemi_weather_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -13,7 +13,7 @@ part 'weather_store.g.dart';
 sealed class WeatherState with _$WeatherState {
   const factory WeatherState({
     @Default(null) WeatherForecast? weatherForecast,
-    @Default(null) AppError? error,
+    @Default(null) AppException? error,
   }) = _WeatherState;
 }
 
@@ -59,7 +59,7 @@ final class WeatherStore extends _$WeatherStore {
     );
   }
 
-  void _handleAppError(AppError error) {
+  void _handleAppError(AppException error) {
     state = state.copyWith(
       error: error,
     );

@@ -1,5 +1,5 @@
 import 'package:flutter_training/entity/weather_forecast.dart';
-import 'package:flutter_training/error/app_error.dart';
+import 'package:flutter_training/exception/app_exception.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'weather_action.freezed.dart';
@@ -16,6 +16,6 @@ sealed class WeatherAction with _$WeatherAction {
   }) = FetchWeatherSuccessAction;
 
   const factory WeatherAction.fetchWeatherError({
-    required AppError error,
+    required AppException error,
   }) = FetchWeatherErrorAction;
 }
