@@ -24,16 +24,6 @@ final class WeatherAppError extends AppError {
   };
 }
 
-final class UnknownAppError extends AppError {
-  const UnknownAppError();
-
-  @override
-  String get title => '予期せぬエラーが発生しました';
-
-  @override
-  String get message => '再度読み込んでください。';
-}
-
 final class FormatAppError extends AppError {
   const FormatAppError(this.formatError);
   final CheckedFromJsonException formatError;
