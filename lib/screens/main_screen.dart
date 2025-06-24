@@ -1,18 +1,32 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_training/action/weather_action.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
-import 'package:flutter_training/extension/yumemi_weather_error_extension.dart';
-import 'package:flutter_training/notifier/weather_forecast_notifier.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yumemi_weather/yumemi_weather.dart';
+import 'package:flutter_training/store/weather_store.dart';
 
-class MainScreen extends ConsumerWidget {
+final class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final weatherForecast = ref.watch(weatherForecastNotifierProvider);
+    final weatherForecast = ref.watch(
+      weatherStoreProvider.select((w) => w.weatherForecast),
+    );
+
+    ref.listen<WeatherState>(
+      weatherStoreProvider,
+      (_, next) {
+        final error = next.error;
+        if (error != null) {
+          _showErrorDialog(
+            context,
+            title: error.title,
+            message: error.message,
+          );
+        }
+      },
+    );
 
     return Scaffold(
       body: Center(
@@ -53,26 +67,14 @@ class MainScreen extends ConsumerWidget {
   }
 
   void _updateWeatherCondition(BuildContext context, WidgetRef ref) {
-    try {
-      ref
-          .read(weatherForecastNotifierProvider.notifier)
-          .fetchWeather(
+    ref
+        .read(weatherStoreProvider.notifier)
+        .dispatch(
+          WeatherAction.fetchWeather(
             city: 'tokyo',
             date: DateTime.now(),
-          );
-    } on YumemiWeatherError catch (e) {
-      _showErrorDialog(
-        context,
-        title: e.title,
-        message: e.message,
-      );
-    } on CheckedFromJsonException {
-      _showErrorDialog(
-        context,
-        title: 'データ形式エラー',
-        message: '天気予報データの形式が正しくありません。データの形式を確認してください。',
-      );
-    }
+          ),
+        );
   }
 
   void _closeMainScreen(BuildContext context) {
@@ -113,7 +115,7 @@ class MainScreen extends ConsumerWidget {
   }
 }
 
-class _TemperatureLabelContent extends StatelessWidget {
+final class _TemperatureLabelContent extends StatelessWidget {
   const _TemperatureLabelContent({
     required int? maxTemperature,
     required int? minTemperature,
@@ -148,7 +150,7 @@ class _TemperatureLabelContent extends StatelessWidget {
   }
 }
 
-class _FooterButtonContent extends StatelessWidget {
+final class _FooterButtonContent extends StatelessWidget {
   const _FooterButtonContent({
     required VoidCallback onReloadTapped,
     required VoidCallback onCloseTapped,

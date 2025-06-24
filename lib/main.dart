@@ -6,7 +6,7 @@ void main() {
   runApp(const ProviderScope(child: MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+final class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override

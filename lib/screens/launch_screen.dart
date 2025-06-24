@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_training/mixins/frame_complete_action.dart';
 import 'package:flutter_training/screens/main_screen.dart';
 
-class LaunchScreen extends StatefulWidget {
+final class LaunchScreen extends StatefulWidget {
   const LaunchScreen({super.key});
 
   @override
   State<LaunchScreen> createState() => _LaunchScreenState();
 }
 
-class _LaunchScreenState extends State<LaunchScreen> with FrameCompleteAction {
+final class _LaunchScreenState extends State<LaunchScreen>
+    with FrameCompleteAction {
   @override
   void initState() {
     super.initState();

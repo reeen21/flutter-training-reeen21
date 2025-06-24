@@ -12,7 +12,7 @@ YumemiWeatherService yumemiWeatherService(Ref ref) {
   return YumemiWeatherService();
 }
 
-class YumemiWeatherService {
+final class YumemiWeatherService {
   YumemiWeatherService([YumemiWeather? yumemiWeather])
     : _yumemiWeather = yumemiWeather ?? YumemiWeather();
 
