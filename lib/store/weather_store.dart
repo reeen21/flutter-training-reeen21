@@ -46,9 +46,9 @@ final class WeatherStore extends _$WeatherStore {
         WeatherAction.fetchWeatherSuccess(weatherForecast: weatherForecast),
       );
     } on YumemiWeatherError catch (e) {
-      dispatch(WeatherAction.fetchWeatherError(error: e.toAppError()));
+      dispatch(WeatherAction.fetchWeatherError(error: e.toAppException()));
     } on CheckedFromJsonException catch (e) {
-      dispatch(WeatherAction.fetchWeatherError(error: e.toAppError()));
+      dispatch(WeatherAction.fetchWeatherError(error: e.toAppException()));
     }
   }
 

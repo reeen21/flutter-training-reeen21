@@ -7,8 +7,8 @@ abstract final class AppException {
   String get message;
 }
 
-final class WeatherAppError extends AppException {
-  const WeatherAppError(this.weatherError);
+final class WeatherAppException extends AppException {
+  const WeatherAppException(this.weatherError);
   final YumemiWeatherError weatherError;
 
   @override
@@ -24,8 +24,8 @@ final class WeatherAppError extends AppException {
   };
 }
 
-final class FormatAppError extends AppException {
-  const FormatAppError(this.formatError);
+final class FormatAppException extends AppException {
+  const FormatAppException(this.formatError);
   final CheckedFromJsonException formatError;
 
   @override
@@ -36,13 +36,13 @@ final class FormatAppError extends AppException {
 }
 
 extension YumemiWeatherErrorExtension on YumemiWeatherError {
-  AppException toAppError() {
-    return WeatherAppError(this);
+  AppException toAppException() {
+    return WeatherAppException(this);
   }
 }
 
 extension CheckedFromJsonExceptionExtension on CheckedFromJsonException {
-  AppException toAppError() {
-    return FormatAppError(this);
+  AppException toAppException() {
+    return FormatAppException(this);
   }
 }
