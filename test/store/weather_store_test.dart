@@ -80,7 +80,7 @@ void main() {
       expect(container.read(weatherStoreProvider).weatherForecast, isNull);
     });
 
-    test('天気予報の取得に失敗した場合、WeatherStateのerrorが更新される', () {
+    test('天気予報の取得時にinvalidParameterが発生した場合、WeatherStateのerrorが更新される', () {
       when(
         mockYumemiWeatherService.fetchWeather(
           city: anyNamed('city'),
@@ -94,8 +94,23 @@ void main() {
             WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
           );
 
-      expect(container.read(weatherStoreProvider).error, isA<AppException>());
+      expect(
+        container.read(weatherStoreProvider).error,
+        isA<AppException>()
+            .having(
+              (e) => e.title,
+              'title',
+              YumemiWeatherError.invalidParameter.toAppException().title,
+            )
+            .having(
+              (e) => e.message,
+              'message',
+              YumemiWeatherError.invalidParameter.toAppException().message,
+            ),
+      );
+    });
 
+    test('天気予報の取得時にunknownが発生した場合、WeatherStateのerrorが更新される', () {
       when(
         mockYumemiWeatherService.fetchWeather(
           city: anyNamed('city'),
@@ -109,7 +124,20 @@ void main() {
             WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
           );
 
-      expect(container.read(weatherStoreProvider).error, isA<AppException>());
+      expect(
+        container.read(weatherStoreProvider).error,
+        isA<AppException>()
+            .having(
+              (e) => e.title,
+              'title',
+              YumemiWeatherError.unknown.toAppException().title,
+            )
+            .having(
+              (e) => e.message,
+              'message',
+              YumemiWeatherError.unknown.toAppException().message,
+            ),
+      );
     });
   });
 }
