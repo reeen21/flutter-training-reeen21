@@ -16,19 +16,9 @@ import 'weather_store_test.mocks.dart';
 void main() {
   group('WeatherStore', () {
     late MockYumemiWeatherService mockYumemiWeatherService;
-    late WeatherStore weatherStore;
+    late ProviderContainer container;
 
     setUpAll(() {
-      mockYumemiWeatherService = MockYumemiWeatherService();
-      final container = ProviderContainer(
-        overrides: [
-          yumemiWeatherServiceProvider.overrideWith(
-            (ref) => mockYumemiWeatherService,
-          ),
-        ],
-      );
-      weatherStore = container.read(weatherStoreProvider.notifier);
-
       // ref: https://github.com/dart-lang/mockito/issues/675
       const dummyWeatherForecast = WeatherForecast(
         condition: WeatherCondition.cloudy,
@@ -39,7 +29,15 @@ void main() {
     });
 
     setUp(() {
-      weatherStore.state = const WeatherState();
+      mockYumemiWeatherService = MockYumemiWeatherService();
+      container = ProviderContainer(
+        overrides: [
+          yumemiWeatherServiceProvider.overrideWith(
+            (ref) => mockYumemiWeatherService,
+          ),
+        ],
+      );
+      addTearDown(container.dispose);
     });
 
     test('天気予報の取得に成功した場合、WeatherStateのweatherForecastが更新される', () {
@@ -56,11 +54,13 @@ void main() {
         ),
       ).thenReturn(expected);
 
-      weatherStore.dispatch(
-        WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
-      );
+      container
+          .read(weatherStoreProvider.notifier)
+          .dispatch(
+            WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
+          );
 
-      expect(weatherStore.state.weatherForecast, expected);
+      expect(container.read(weatherStoreProvider).weatherForecast, expected);
     });
 
     test('天気予報の取得に失敗した場合、WeatherStateのweatherForecastが更新されない', () {
@@ -71,11 +71,13 @@ void main() {
         ),
       ).thenThrow(YumemiWeatherError.unknown);
 
-      weatherStore.dispatch(
-        WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
-      );
+      container
+          .read(weatherStoreProvider.notifier)
+          .dispatch(
+            WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
+          );
 
-      expect(weatherStore.state.weatherForecast, isNull);
+      expect(container.read(weatherStoreProvider).weatherForecast, isNull);
     });
 
     test('天気予報の取得に失敗した場合、WeatherStateのerrorが更新される', () {
@@ -86,11 +88,14 @@ void main() {
         ),
       ).thenThrow(YumemiWeatherError.invalidParameter);
 
-      weatherStore.dispatch(
-        WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
-      );
+      container
+          .read(weatherStoreProvider.notifier)
+          .dispatch(
+            WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
+          );
 
-      expect(weatherStore.state.error, isA<AppException>());
+      expect(container.read(weatherStoreProvider).error, isA<AppException>());
+
       when(
         mockYumemiWeatherService.fetchWeather(
           city: anyNamed('city'),
@@ -98,11 +103,13 @@ void main() {
         ),
       ).thenThrow(YumemiWeatherError.unknown);
 
-      weatherStore.dispatch(
-        WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
-      );
+      container
+          .read(weatherStoreProvider.notifier)
+          .dispatch(
+            WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
+          );
 
-      expect(weatherStore.state.error, isA<AppException>());
+      expect(container.read(weatherStoreProvider).error, isA<AppException>());
     });
   });
 }
