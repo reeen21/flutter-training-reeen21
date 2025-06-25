@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/entity/weather_forecast.dart';
 import 'package:flutter_training/entity/yumemi_weather_request.dart';
@@ -18,9 +19,16 @@ class YumemiWeatherService {
 
   final YumemiWeather _yumemiWeather;
 
-  WeatherForecast fetchWeather({required String city, required DateTime date}) {
+  Future<WeatherForecast> fetchWeather({
+    required String city,
+    required DateTime date,
+  }) async {
     final request = YumemiWeatherRequest(area: city, date: date);
-    final response = _yumemiWeather.fetchWeather(jsonEncode(request.toJson()));
+    final response = await Isolate.run(
+      () => _yumemiWeather.syncFetchWeather(
+        jsonEncode(request.toJson()),
+      ),
+    );
     final formattedResponse = jsonDecode(response) as Map<String, dynamic>;
     return WeatherForecast.fromJson(formattedResponse);
   }

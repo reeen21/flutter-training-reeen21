@@ -14,6 +14,7 @@ sealed class WeatherState with _$WeatherState {
   const factory WeatherState({
     @Default(null) WeatherForecast? weatherForecast,
     @Default(null) AppException? error,
+    @Default(false) bool isLoading,
   }) = _WeatherState;
 }
 
@@ -22,10 +23,10 @@ final class WeatherStore extends _$WeatherStore {
   @override
   WeatherState build() => const WeatherState();
 
-  void dispatch(WeatherAction action) {
+  Future<void> dispatch(WeatherAction action) async {
     switch (action) {
       case FetchWeatherAction():
-        _fetchWeather(action.city, action.date);
+        await _fetchWeather(action.city, action.date);
       case FetchWeatherSuccessAction():
         _fetchWeatherSuccess(action.weatherForecast);
       case FetchWeatherErrorAction():
@@ -33,22 +34,25 @@ final class WeatherStore extends _$WeatherStore {
     }
   }
 
-  void _fetchWeather(String city, DateTime date) {
+  Future<void> _fetchWeather(String city, DateTime date) async {
     final service = ref.read(yumemiWeatherServiceProvider);
-    state = state.copyWith(error: null);
-
+    state = state.copyWith(error: null, isLoading: true);
     try {
-      final weatherForecast = service.fetchWeather(
+      final weatherForecast = await service.fetchWeather(
         city: city,
         date: date,
       );
-      dispatch(
+      await dispatch(
         WeatherAction.fetchWeatherSuccess(weatherForecast: weatherForecast),
       );
     } on YumemiWeatherError catch (e) {
-      dispatch(WeatherAction.fetchWeatherError(error: e.toAppException()));
+      await dispatch(
+        WeatherAction.fetchWeatherError(error: e.toAppException()),
+      );
     } on CheckedFromJsonException catch (e) {
-      dispatch(WeatherAction.fetchWeatherError(error: e.toAppException()));
+      await dispatch(
+        WeatherAction.fetchWeatherError(error: e.toAppException()),
+      );
     }
   }
 
@@ -56,12 +60,14 @@ final class WeatherStore extends _$WeatherStore {
     state = state.copyWith(
       weatherForecast: weatherForecast,
       error: null,
+      isLoading: false,
     );
   }
 
   void _handleAppError(AppException error) {
     state = state.copyWith(
       error: error,
+      isLoading: false,
     );
   }
 }
