@@ -34,10 +34,10 @@ void main() {
         city: anyNamed('city'),
         date: anyNamed('date'),
       ),
-    ).thenReturn(forecast);
+    ).thenAnswer((_) async => forecast);
   }
 
-  Future<void> givenYumemiWeatherError(YumemiWeatherError error) async {
+  void givenYumemiWeatherError(YumemiWeatherError error) {
     when(
       mockYumemiWeatherService.fetchWeather(
         city: anyNamed('city'),
@@ -130,7 +130,7 @@ void main() {
 
     testWidgets('YumemiWeatherError.unknownが発生した場合、エラーが表示される', (tester) async {
       final expected = YumemiWeatherError.unknown.toAppException();
-      await givenYumemiWeatherError(YumemiWeatherError.unknown);
+      givenYumemiWeatherError(YumemiWeatherError.unknown);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
       expect(find.byType(AlertDialog), findsOneWidget);
@@ -142,7 +142,7 @@ void main() {
       tester,
     ) async {
       final expected = YumemiWeatherError.invalidParameter.toAppException();
-      await givenYumemiWeatherError(YumemiWeatherError.invalidParameter);
+      givenYumemiWeatherError(YumemiWeatherError.invalidParameter);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
       expect(find.byType(AlertDialog), findsOneWidget);
