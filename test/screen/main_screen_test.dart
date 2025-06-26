@@ -65,7 +65,7 @@ void main() {
 
   Future<void> whenUserReloads(WidgetTester tester) async {
     await tester.tap(find.text('Reload'));
-    await tester.pump();
+    await tester.pumpAndSettle();
   }
 
   group('main_screen', () {
