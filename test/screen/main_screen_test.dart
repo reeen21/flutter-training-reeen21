@@ -49,6 +49,7 @@ void main() {
   Future<void> givenMockMainScreen(WidgetTester tester) async {
     // デフォルトではサイズが横長になっているので、縦長にする
     await tester.binding.setSurfaceSize(const Size(800, 1000));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
