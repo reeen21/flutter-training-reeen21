@@ -132,6 +132,7 @@ void main() {
       await givenYumemiWeatherError(YumemiWeatherError.unknown);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
+      expect(find.byType(AlertDialog), findsOneWidget);
       expect(find.text(expected.title), findsOneWidget);
       expect(find.text(expected.message), findsOneWidget);
     });
@@ -143,6 +144,7 @@ void main() {
       await givenYumemiWeatherError(YumemiWeatherError.invalidParameter);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
+      expect(find.byType(AlertDialog), findsOneWidget);
       expect(find.text(expected.title), findsOneWidget);
       expect(find.text(expected.message), findsOneWidget);
     });
