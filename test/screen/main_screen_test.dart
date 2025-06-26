@@ -69,7 +69,7 @@ void main() {
   }
 
   group('main_screen', () {
-    testWidgets('天気予報が取得できている場合、晴れの天気画像が表示される', (tester) async {
+    testWidgets('天気予報としてsunnyが取得できている場合、晴れの天気画像が表示される', (tester) async {
       const mockForecast = WeatherForecast(
         condition: WeatherCondition.sunny,
         maxTemperature: 20,
@@ -84,7 +84,7 @@ void main() {
       );
     });
 
-    testWidgets('天気予報が取得できている場合、曇りの天気画像が表示される', (tester) async {
+    testWidgets('天気予報としてcloudyが取得できている場合、曇りの天気画像が表示される', (tester) async {
       const mockForecast = WeatherForecast(
         condition: WeatherCondition.cloudy,
         maxTemperature: 20,
@@ -99,7 +99,7 @@ void main() {
       );
     });
 
-    testWidgets('天気予報が取得できている場合、雨の天気画像が表示される', (tester) async {
+    testWidgets('天気予報としてrainyが取得できている場合、雨の天気画像が表示される', (tester) async {
       const mockForecast = WeatherForecast(
         condition: WeatherCondition.rainy,
         maxTemperature: 20,
