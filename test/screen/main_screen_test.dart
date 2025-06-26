@@ -28,7 +28,6 @@ void main() {
 
   Future<void> givenWeatherForecast(
     WeatherForecast forecast,
-    WidgetTester tester,
   ) async {
     when(
       mockYumemiWeatherService.fetchWeather(
@@ -76,7 +75,7 @@ void main() {
         maxTemperature: 20,
         minTemperature: 10,
       );
-      await givenWeatherForecast(mockForecast, tester);
+      await givenWeatherForecast(mockForecast);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
       expect(
@@ -91,7 +90,7 @@ void main() {
         maxTemperature: 20,
         minTemperature: 10,
       );
-      await givenWeatherForecast(mockForecast, tester);
+      await givenWeatherForecast(mockForecast);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
       expect(
@@ -106,7 +105,7 @@ void main() {
         maxTemperature: 20,
         minTemperature: 10,
       );
-      await givenWeatherForecast(mockForecast, tester);
+      await givenWeatherForecast(mockForecast);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
       expect(
@@ -121,7 +120,7 @@ void main() {
         maxTemperature: 20,
         minTemperature: 10,
       );
-      await givenWeatherForecast(expected, tester);
+      await givenWeatherForecast(expected);
       await givenMockMainScreen(tester);
       await whenUserReloads(tester);
       expect(find.text('${expected.maxTemperature}℃'), findsOneWidget);
