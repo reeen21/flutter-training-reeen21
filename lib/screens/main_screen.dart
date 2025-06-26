@@ -18,19 +18,8 @@ final class MainScreen extends ConsumerWidget {
     ref.listen<WeatherState>(
       weatherStoreProvider,
       (previous, next) {
-        final isLoading = next.isLoading;
-        final shouldHideLoadingDialog =
-            (previous?.isLoading ?? false) && !isLoading;
-        final error = next.error;
-
-        if (shouldHideLoadingDialog) {
-          Navigator.of(context).pop();
-        }
-
-        if (isLoading) {
-          _showLoadingDialog(context);
-        } else if (error != null) {
-          _showErrorDialog(context, exception: error);
+        if (previous != null) {
+          _onChangeWeatherState(context, next, previous);
         }
       },
     );
@@ -91,6 +80,39 @@ final class MainScreen extends ConsumerWidget {
     Navigator.pop(context);
   }
 
+  void _onChangeWeatherState(
+    BuildContext context,
+    WeatherState state,
+    WeatherState previous,
+  ) {
+    final isLoading = state.isLoading;
+    final shouldHideLoadingDialog = previous.isLoading && !isLoading;
+    final error = state.error;
+
+    if (shouldHideLoadingDialog) {
+      Navigator.of(context).pop();
+    }
+
+    if (isLoading) {
+      _showLoadingDialog(context);
+    } else if (error != null) {
+      _showErrorDialog(context, exception: error);
+    }
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    unawaited(
+      showDialog(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.3),
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(color: Colors.yellowAccent),
+        ),
+      ),
+    );
+  }
+
   void _showErrorDialog(
     BuildContext context, {
     required AppException exception,
@@ -119,19 +141,6 @@ final class MainScreen extends ConsumerWidget {
             ],
           );
         },
-      ),
-    );
-  }
-
-  void _showLoadingDialog(BuildContext context) {
-    unawaited(
-      showDialog(
-        context: context,
-        barrierColor: Colors.black.withValues(alpha: 0.3),
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: CircularProgressIndicator(color: Colors.yellowAccent),
-        ),
       ),
     );
   }
