@@ -5,7 +5,7 @@ import 'package:flutter_training/screens/launch_screen.dart';
 import 'package:flutter_training/screens/main_screen.dart';
 
 void main() {
-  testWidgets('LaunchScreenが表示された3秒後にMainScreenに遷移する', (tester) async {
+  testWidgets('LaunchScreenが表示された500ミリ秒後にMainScreenに遷移する', (tester) async {
     await tester.binding.setSurfaceSize(const Size(800, 1000));
     await tester.pumpWidget(
       const ProviderScope(
@@ -14,7 +14,7 @@ void main() {
         ),
       ),
     );
-    await tester.pumpAndSettle(const Duration(seconds: 3));
+    await tester.pumpAndSettle(const Duration(milliseconds: 500));
     expect(find.byType(MainScreen), findsOneWidget);
   });
 }
