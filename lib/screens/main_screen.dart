@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_training/action/weather_action.dart';
 import 'package:flutter_training/entity/weather_condition.dart';
+import 'package:flutter_training/exception/app_exception.dart';
 import 'package:flutter_training/store/weather_store.dart';
 
 final class MainScreen extends ConsumerWidget {
@@ -16,14 +17,9 @@ final class MainScreen extends ConsumerWidget {
 
     ref.listen<WeatherState>(
       weatherStoreProvider,
-      (_, next) {
-        final error = next.error;
-        if (error != null) {
-          _showErrorDialog(
-            context,
-            title: error.title,
-            message: error.message,
-          );
+      (previous, next) {
+        if (previous != null) {
+          _onChangeWeatherState(context, next, previous);
         }
       },
     );
@@ -66,8 +62,11 @@ final class MainScreen extends ConsumerWidget {
     );
   }
 
-  void _updateWeatherCondition(BuildContext context, WidgetRef ref) {
-    ref
+  Future<void> _updateWeatherCondition(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    await ref
         .read(weatherStoreProvider.notifier)
         .dispatch(
           WeatherAction.fetchWeather(
@@ -81,10 +80,42 @@ final class MainScreen extends ConsumerWidget {
     Navigator.pop(context);
   }
 
+  void _onChangeWeatherState(
+    BuildContext context,
+    WeatherState state,
+    WeatherState previous,
+  ) {
+    final isLoading = state.isLoading;
+    final shouldHideLoadingDialog = previous.isLoading && !isLoading;
+    final error = state.error;
+
+    if (shouldHideLoadingDialog) {
+      Navigator.of(context).pop();
+    }
+
+    if (isLoading) {
+      _showLoadingDialog(context);
+    } else if (error != null) {
+      _showErrorDialog(context, exception: error);
+    }
+  }
+
+  void _showLoadingDialog(BuildContext context) {
+    unawaited(
+      showDialog(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.3),
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(color: Colors.yellowAccent),
+        ),
+      ),
+    );
+  }
+
   void _showErrorDialog(
     BuildContext context, {
-    required String title,
-    required String message,
+    required AppException exception,
   }) {
     unawaited(
       showDialog(
@@ -92,8 +123,8 @@ final class MainScreen extends ConsumerWidget {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(title),
-            content: Text(message),
+            title: Text(exception.title),
+            content: Text(exception.message),
             actions: [
               TextButton(
                 style: ButtonStyle(

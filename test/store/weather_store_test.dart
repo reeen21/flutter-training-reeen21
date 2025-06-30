@@ -40,7 +40,7 @@ void main() {
       addTearDown(container.dispose);
     });
 
-    test('天気予報の取得に成功した場合、WeatherStateのweatherForecastが更新される', () {
+    test('天気予報の取得に成功した場合、WeatherStateのweatherForecastが更新される', () async{
       const expected = WeatherForecast(
         condition: WeatherCondition.cloudy,
         maxTemperature: 20,
@@ -52,9 +52,9 @@ void main() {
           city: anyNamed('city'),
           date: anyNamed('date'),
         ),
-      ).thenReturn(expected);
+      ).thenAnswer((_) async => expected);
 
-      container
+      await container
           .read(weatherStoreProvider.notifier)
           .dispatch(
             WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
@@ -63,7 +63,7 @@ void main() {
       expect(container.read(weatherStoreProvider).weatherForecast, expected);
     });
 
-    test('天気予報の取得に失敗した場合、WeatherStateのweatherForecastが更新されない', () {
+    test('天気予報の取得に失敗した場合、WeatherStateのweatherForecastが更新されない', () async{
       when(
         mockYumemiWeatherService.fetchWeather(
           city: anyNamed('city'),
@@ -71,7 +71,7 @@ void main() {
         ),
       ).thenThrow(YumemiWeatherError.unknown);
 
-      container
+      await container
           .read(weatherStoreProvider.notifier)
           .dispatch(
             WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
@@ -80,7 +80,7 @@ void main() {
       expect(container.read(weatherStoreProvider).weatherForecast, isNull);
     });
 
-    test('天気予報の取得時にinvalidParameterが発生した場合、WeatherStateのerrorが更新される', () {
+    test('天気予報の取得時にinvalidParameterが発生した場合、WeatherStateのerrorが更新される', () async {
       when(
         mockYumemiWeatherService.fetchWeather(
           city: anyNamed('city'),
@@ -88,7 +88,7 @@ void main() {
         ),
       ).thenThrow(YumemiWeatherError.invalidParameter);
 
-      container
+      await container
           .read(weatherStoreProvider.notifier)
           .dispatch(
             WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),
@@ -110,7 +110,7 @@ void main() {
       );
     });
 
-    test('天気予報の取得時にunknownが発生した場合、WeatherStateのerrorが更新される', () {
+    test('天気予報の取得時にunknownが発生した場合、WeatherStateのerrorが更新される', () async {
       when(
         mockYumemiWeatherService.fetchWeather(
           city: anyNamed('city'),
@@ -118,7 +118,7 @@ void main() {
         ),
       ).thenThrow(YumemiWeatherError.unknown);
 
-      container
+      await container
           .read(weatherStoreProvider.notifier)
           .dispatch(
             WeatherAction.fetchWeather(city: 'tokyo', date: DateTime.now()),

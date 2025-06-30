@@ -3,10 +3,12 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter_training/entity/weather_forecast.dart' as _i3;
+import 'dart:async' as _i3;
+
+import 'package:flutter_training/entity/weather_forecast.dart' as _i4;
 import 'package:flutter_training/services/yumemi_weather_service.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:mockito/src/dummies.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -28,20 +30,30 @@ import 'package:mockito/src/dummies.dart' as _i4;
 class MockYumemiWeatherService extends _i1.Mock
     implements _i2.YumemiWeatherService {
   @override
-  _i3.WeatherForecast fetchWeather({
+  _i3.Future<_i4.WeatherForecast> fetchWeather({
     required String? city,
     required DateTime? date,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#fetchWeather, [], {#city: city, #date: date}),
-            returnValue: _i4.dummyValue<_i3.WeatherForecast>(
-              this,
-              Invocation.method(#fetchWeather, [], {#city: city, #date: date}),
+            returnValue: _i3.Future<_i4.WeatherForecast>.value(
+              _i5.dummyValue<_i4.WeatherForecast>(
+                this,
+                Invocation.method(#fetchWeather, [], {
+                  #city: city,
+                  #date: date,
+                }),
+              ),
             ),
-            returnValueForMissingStub: _i4.dummyValue<_i3.WeatherForecast>(
-              this,
-              Invocation.method(#fetchWeather, [], {#city: city, #date: date}),
+            returnValueForMissingStub: _i3.Future<_i4.WeatherForecast>.value(
+              _i5.dummyValue<_i4.WeatherForecast>(
+                this,
+                Invocation.method(#fetchWeather, [], {
+                  #city: city,
+                  #date: date,
+                }),
+              ),
             ),
           )
-          as _i3.WeatherForecast);
+          as _i3.Future<_i4.WeatherForecast>);
 }
